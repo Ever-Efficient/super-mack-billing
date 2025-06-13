@@ -53,7 +53,7 @@ const Dashboard = () => {
         <TopNav />
 
         <div className="p-1 flex-1 overflow-y-auto mb-4">
-          <h2 className="text-2xl font-medium">Dashboard</h2>
+          <h2>Dashboard</h2>
 
           <div className="grid">
             <div className="col-12 md:col-6 xl:col-3">
