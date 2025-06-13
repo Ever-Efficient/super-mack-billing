@@ -4,6 +4,8 @@ import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Toast } from "primereact/toast";
+import TopNav from '../components/Topbar';
+import { Sidebar } from '../components/Sidebar';
 
 interface Item {
   id: string;
@@ -22,7 +24,6 @@ interface InvoiceLine {
 const MOCK_ITEMS: Item[] = [
   { id: "1", name: "Apple", barcode: "111", price: 1.0 },
   { id: "2", name: "Banana", barcode: "222", price: 0.5 },
-  // ... more catalog items
 ];
 
 export default function BillingPOS() {
@@ -86,72 +87,73 @@ export default function BillingPOS() {
   };
 
   return (
-    <div className="p-4">
-      <Toast ref={toast} />
-
-      <h2>Billing / POS</h2>
-
-      {/* --- Input Row --- */}
-      <div className="flex flex-wrap gap-2 align-items-center mb-4">
-        <InputText
-          placeholder="Scan barcode & Enter"
-          value={barcodeInput}
-          onChange={(e) => setBarcodeInput(e.target.value)}
-          onKeyDown={onBarcodeKey}
-        />
-
-        <InputText
-          placeholder="Search item..."
-          value={searchInput}
-          onChange={(e) => {
-            setSearchInput(e.target.value);
-            const found = catalog.find((it) => it.name.toLowerCase().includes(e.target.value.toLowerCase()));
-            if (found) { addItemToInvoice(found); setSearchInput(""); }
-          }}
-        />
-      </div>
-
-      {/* --- Invoice Table --- */}
-      <DataTable value={invoiceLines} className="w-full mb-4">
-        <Column header="#" body={(_, { rowIndex }) => rowIndex + 1} style={{ width: "3rem" }}/>
-        <Column field="item.name" header="Item" />
-        <Column
-          header="Qty"
-          body={(row: InvoiceLine) => (
+    <div className="min-h-screen flex">
+      <Sidebar />
+      <div className="flex flex-column w-full p-4">
+        <TopNav />
+        <div>
+          <Toast ref={toast} />
+          <h2>Billing / POS</h2>
+          <div className="flex flex-wrap gap-2 align-items-center mb-4">
             <InputText
-              type="number"
-              value={String(row.qty)}
-              onChange={(e) => updateLine(row.lineId, "qty", +e.target.value)}
-              style={{ width: "4rem" }}
+              placeholder="Scan barcode & Enter"
+              value={barcodeInput}
+              onChange={(e) => setBarcodeInput(e.target.value)}
+              onKeyDown={onBarcodeKey}
             />
-          )}
-        />
-        <Column
-          header="Price"
-          body={(row: InvoiceLine) => (
+
             <InputText
-              type="number"
-              value={String(row.price)}
-              step="0.01"
-              onChange={(e) => updateLine(row.lineId, "price", +e.target.value)}
-              style={{ width: "6rem" }}
+              placeholder="Search item..."
+              value={searchInput}
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+                const found = catalog.find((it) => it.name.toLowerCase().includes(e.target.value.toLowerCase()));
+                if (found) { addItemToInvoice(found); setSearchInput(""); }
+              }}
             />
-          )}
-        />
-        <Column header="Line Total" body={(r) => `$${(r.qty * r.price).toFixed(2)}`} />
-        <Column header="Actions" body={(row) => <Button icon="pi pi-trash" className="p-button-text p-button-danger" onClick={() => removeLine(row.lineId)}/>} />
-      </DataTable>
+          </div>
 
-      {/* --- Totals & Operations --- */}
-      <div className="flex justify-content-end mb-2">
-        <div className="mr-8">Subtotal: <b>${subtotal.toFixed(2)}</b></div>
-        <div className="mr-8">Tax 10%: <b>${tax.toFixed(2)}</b></div>
-        <div>Total: <b>${total.toFixed(2)}</b></div>
-      </div>
+          <DataTable value={invoiceLines} className="w-full mb-4">
+            <Column header="#" body={(_, { rowIndex }) => rowIndex + 1} style={{ width: "3rem" }} />
+            <Column field="item.name" header="Item" />
+            <Column
+              header="Qty"
+              body={(row: InvoiceLine) => (
+                <InputText
+                  type="number"
+                  value={String(row.qty)}
+                  onChange={(e) => updateLine(row.lineId, "qty", +e.target.value)}
+                  style={{ width: "4rem" }}
+                />
+              )}
+            />
+            <Column
+              header="Price"
+              body={(row: InvoiceLine) => (
+                <InputText
+                  type="number"
+                  value={String(row.price)}
+                  step="0.01"
+                  onChange={(e) => updateLine(row.lineId, "price", +e.target.value)}
+                  style={{ width: "6rem" }}
+                />
+              )}
+            />
+            <Column header="Line Total" body={(r) => `$${(r.qty * r.price).toFixed(2)}`} />
+            <Column header="Actions" body={(row) => <Button icon="pi pi-trash" className="p-button-text p-button-danger" onClick={() => removeLine(row.lineId)} />} />
+          </DataTable>
 
-      <div className="flex gap-2 justify-content-end">
-        <Button label="Save Invoice" icon="pi pi-save" onClick={handleSave} />
-        <Button label="Print Invoice" icon="pi pi-print" onClick={handlePrint} />
+          <div className="flex justify-content-end mb-4">
+            <div className="mr-8">Subtotal: <b>${subtotal.toFixed(2)}</b></div>
+            <div className="mr-8">Tax 10%: <b>${tax.toFixed(2)}</b></div>
+            <div>Total: <b>${total.toFixed(2)}</b></div>
+          </div>
+
+          <div className="flex gap-4 justify-content-end">
+            <Button label="Save Invoice" icon="pi pi-save" onClick={handleSave} />
+            <Button label="Print Invoice" icon="pi pi-print" onClick={handlePrint} />
+          </div>
+        </div>
       </div>
     </div>
   );

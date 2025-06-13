@@ -49,11 +49,11 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex">
       <Sidebar />
-      <div className="flex flex-column w-full">
+      <div className="flex flex-column w-full ml-6 mr-4">
         <TopNav />
 
-        <div className="p-4 flex-1 overflow-y-auto">
-          <h2 className="text-2xl font-medium mb-4">Dashboard</h2>
+        <div className="p-1 flex-1 overflow-y-auto mb-4">
+          <h2 className="text-2xl font-medium">Dashboard</h2>
 
           <div className="grid">
             <div className="col-12 md:col-6 xl:col-3">

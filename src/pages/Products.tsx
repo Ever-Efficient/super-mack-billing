@@ -7,6 +7,8 @@ import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import { Dropdown } from "primereact/dropdown";
 import { FileUpload } from "primereact/fileupload";
+import TopNav from '../components/Topbar';
+import { Sidebar } from '../components/Sidebar';
 
 import type { FileUploadHandlerEvent } from "primereact/fileupload";
 import { Toast } from "primereact/toast";
@@ -41,6 +43,7 @@ const ProductsPage: React.FC = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [formData, setFormData] = useState<ProductData>({ ...defaultProduct });
     const toast = useRef<Toast>(null);
+    const [globalFilter, setGlobalFilter] = useState("");
 
     const openNew = () => {
         setFormData({ ...defaultProduct });
@@ -110,7 +113,6 @@ const ProductsPage: React.FC = () => {
         </>
     );
 
-    // Render Edit button for each row
     const actionBodyTemplate = (rowData: ProductData) => {
         return (
             <Button icon="pi pi-pencil" className="p-button-rounded p-button-text" onClick={() => openEdit(rowData)} aria-label="Edit" />
@@ -118,97 +120,113 @@ const ProductsPage: React.FC = () => {
     };
 
     return (
-        <div className="p-4">
-            <Toast ref={toast} />
-            <div className="flex justify-content-between align-items-center mb-3">
-                <h2>Products</h2>
-                <Button label="Add Product" icon="pi pi-plus" onClick={openNew} />
-            </div>
-
-            <DataTable
-                value={products}
-                responsiveLayout="scroll"
-                emptyMessage="No products found."
-            >
-                <Column field="name" header="Name" sortable />
-                <Column field="category" header="Category" sortable />
-                <Column
-                    field="price"
-                    header="Price"
-                    body={(row) => (row.price != null ? `$${row.price.toFixed(2)}` : "")}
-                    sortable
-                />
-                <Column field="stock" header="Stock" sortable />
-                <Column
-                    header="Barcode"
-                    body={(row) => (row.barcode ? <span>{row.barcode}</span> : <i>No Barcode</i>)}
-                />
-                <Column header="Actions" body={actionBodyTemplate} style={{ width: "80px" }} />
-            </DataTable>
-
-            <Dialog header={selectedProduct ? "Edit Product" : "Add Product"} visible={modalVisible} style={{ width: "400px" }} onHide={() => setModalVisible(false)} footer={dialogFooter} modal>
-                <div className="p-fluid formgrid grid">
-                    <div className="field col-12 mb-3">
-                        <label htmlFor="name">Name*</label>
-                        <InputText id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+        <div className="min-h-screen flex">
+            <Sidebar />
+            <div className="flex flex-column w-full p-4 mb-2">
+                <TopNav />
+                <div>
+                    <Toast ref={toast} />
+                    <div className="flex justify-content-between align-items-center">
+                        <h2>Products</h2>
                     </div>
 
-                    <div className="field col-12 mb-3">
-                        <label htmlFor="category">Category*</label>
-                        <Dropdown
-                            id="category"
-                            value={formData.category}
-                            options={categories}
-                            onChange={(e) => setFormData({ ...formData, category: e.value })}
-                            placeholder="Select Category"
+                    <div className="flex justify-content-between align-items-center mb-3">
+                        <Button label="Add Product" icon="pi pi-plus" onClick={openNew} />
+                        <InputText
+                            placeholder="Search"
+                            value={globalFilter}
+                            onChange={(e) => setGlobalFilter(e.target.value)}
+                            className="p-inputtext-sm"
                         />
                     </div>
 
-                    <div className="field col-12 mb-3">
-                        <label htmlFor="price">Price*</label>
-                        <InputNumber
-                            id="price"
-                            value={formData.price}
-                            onValueChange={(e) => setFormData({ ...formData, price: e.value ?? null })}
-                            mode="currency"
-                            currency="USD"
-                            locale="en-US"
-                            min={0}
-                            showButtons
-                            buttonLayout="horizontal"
-                            incrementButtonClassName="p-button-text"
-                            decrementButtonClassName="p-button-text"
+                    <DataTable
+                        value={products}
+                        globalFilter={globalFilter}
+                        responsiveLayout="scroll"
+                        emptyMessage="No products found."
+                    >
+                        <Column field="name" header="Name" sortable />
+                        <Column field="category" header="Category" sortable />
+                        <Column
+                            field="price"
+                            header="Price"
+                            body={(row) => (row.price != null ? `$${row.price.toFixed(2)}` : "")}
+                            sortable
                         />
-                    </div>
+                        <Column field="stock" header="Stock" sortable />
+                        <Column
+                            header="Barcode"
+                            body={(row) => (row.barcode ? <span>{row.barcode}</span> : <i>No Barcode</i>)}
+                        />
+                        <Column header="Actions" body={actionBodyTemplate} style={{ width: "80px" }} />
+                    </DataTable>
 
-                    <div className="field col-12 mb-3">
-                        <label htmlFor="stock">Stock*</label>
-                        <InputNumber
-                            id="stock"
-                            value={formData.stock}
-                            onValueChange={(e) => setFormData({ ...formData, stock: e.value ?? null })}
-                            min={0}
-                            showButtons
-                        />
-                    </div>
+                    <Dialog header={selectedProduct ? "Edit Product" : "Add Product"} visible={modalVisible} style={{ width: "400px" }} onHide={() => setModalVisible(false)} footer={dialogFooter} modal>
+                        <div className="p-fluid formgrid grid">
+                            <div className="field col-12 mb-3">
+                                <label htmlFor="name">Name*</label>
+                                <InputText id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+                            </div>
 
-                    <div className="field col-12 mb-3">
-                        <label>Barcode (optional)</label>
-                        <FileUpload
-                            name="barcode"
-                            customUpload
-                            uploadHandler={handleFileUpload}
-                            mode="basic"
-                            chooseLabel="Upload Barcode"
-                            accept="image/*"
-                            maxFileSize={1000000}
-                            auto
-                            emptyTemplate={<p className="m-0">No file chosen.</p>}
-                        />
-                        {formData.barcode && <small>Uploaded: {formData.barcode}</small>}
-                    </div>
+                            <div className="field col-12 mb-3">
+                                <label htmlFor="category">Category*</label>
+                                <Dropdown
+                                    id="category"
+                                    value={formData.category}
+                                    options={categories}
+                                    onChange={(e) => setFormData({ ...formData, category: e.value })}
+                                    placeholder="Select Category"
+                                />
+                            </div>
+
+                            <div className="field col-12 mb-3">
+                                <label htmlFor="price">Price*</label>
+                                <InputNumber
+                                    id="price"
+                                    value={formData.price}
+                                    onValueChange={(e) => setFormData({ ...formData, price: e.value ?? null })}
+                                    mode="currency"
+                                    currency="USD"
+                                    locale="en-US"
+                                    min={0}
+                                    showButtons
+                                    buttonLayout="horizontal"
+                                    incrementButtonClassName="p-button-text"
+                                    decrementButtonClassName="p-button-text"
+                                />
+                            </div>
+
+                            <div className="field col-12 mb-3">
+                                <label htmlFor="stock">Stock*</label>
+                                <InputNumber
+                                    id="stock"
+                                    value={formData.stock}
+                                    onValueChange={(e) => setFormData({ ...formData, stock: e.value ?? null })}
+                                    min={0}
+                                    showButtons
+                                />
+                            </div>
+
+                            <div className="field col-12 mb-3">
+                                <label>Barcode (optional)</label>
+                                <FileUpload
+                                    name="barcode"
+                                    customUpload
+                                    uploadHandler={handleFileUpload}
+                                    mode="basic"
+                                    chooseLabel="Upload Barcode"
+                                    accept="image/*"
+                                    maxFileSize={1000000}
+                                    auto
+                                    emptyTemplate={<p className="m-0">No file chosen.</p>}
+                                />
+                                {formData.barcode && <small>Uploaded: {formData.barcode}</small>}
+                            </div>
+                        </div>
+                    </Dialog>
                 </div>
-            </Dialog>
+            </div>
         </div>
     );
 };

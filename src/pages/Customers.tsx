@@ -5,6 +5,8 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
+import TopNav from '../components/Topbar';
+import { Sidebar } from '../components/Sidebar';
 
 interface Customer {
   id?: string;
@@ -88,77 +90,83 @@ const CustomerManagement = () => {
   );
 
   return (
-    <div className="p-4">
-      <Toast ref={toast} />
-      <h2>Customers</h2>
+    <div className="min-h-screen flex">
+      <Sidebar />
+      <div className="flex flex-column w-full p-4">
+        <TopNav />
+        <div>
+          <Toast ref={toast} />
+          <h2>Customers</h2>
 
-      <div className="flex justify-content-between align-items-center mb-3">
-        <Button label="Add Customer" icon="pi pi-plus" onClick={() => openModal("add")} />
-        <InputText
-          placeholder="Search"
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          className="p-inputtext-sm"
-        />
-      </div>
-
-      <DataTable
-        value={customers}
-        paginator rows={5}
-        globalFilter={globalFilter}
-        emptyMessage="No customers found."
-      >
-        <Column field="name" header="Name" sortable />
-        <Column field="email" header="Email" />
-        <Column field="phone" header="Phone" />
-        <Column field="address" header="Address" />
-        <Column
-          field="creditBalance"
-          header="Credit Balance"
-          body={(row) => `$${row.creditBalance?.toFixed(2)}`}
-        />
-        <Column body={actionTemplate} header="Actions" />
-      </DataTable>
-
-      <Dialog
-        visible={visible}
-        onHide={() => setVisible(false)}
-        header={formMode === "add" ? "Add Customer" : "Edit Customer"}
-        style={{ width: "30vw" }}
-        modal
-      >
-        <div className="p-fluid">
-          <div className="field">
-            <label>Name</label>
-            <InputText value={formData.name || ""} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
-          </div>
-          <div className="field">
-            <label>Email</label>
-            <InputText value={formData.email || ""} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-          </div>
-          <div className="field">
-            <label>Phone</label>
-            <InputText value={formData.phone || ""} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
-          </div>
-          <div className="field">
-            <label>Address</label>
-            <InputText value={formData.address || ""} onChange={(e) => setFormData({ ...formData, address: e.target.value })} />
-          </div>
-          <div className="field">
-            <label>Credit Balance</label>
+          <div className="flex justify-content-between align-items-center mb-3">
+            <Button label="Add Customer" icon="pi pi-plus" onClick={() => openModal("add")} />
             <InputText
-              type="number"
-              value={formData.creditBalance?.toString() || ""}
-              onChange={(e) => setFormData({ ...formData, creditBalance: parseFloat(e.target.value) })}
+              placeholder="Search"
+              value={globalFilter}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              className="p-inputtext-sm"
             />
           </div>
-        </div>
 
-        <div className="flex justify-content-end gap-2 mt-4">
-          <Button label="Save" icon="pi pi-check" onClick={saveCustomer} />
-          <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={() => setVisible(false)} />
+          <DataTable
+            value={customers}
+            paginator rows={5}
+            globalFilter={globalFilter}
+            emptyMessage="No customers found."
+          >
+            <Column field="name" header="Name" sortable />
+            <Column field="email" header="Email" />
+            <Column field="phone" header="Phone" />
+            <Column field="address" header="Address" />
+            <Column
+              field="creditBalance"
+              header="Credit Balance"
+              body={(row) => `$${row.creditBalance?.toFixed(2)}`}
+            />
+            <Column body={actionTemplate} header="Actions" />
+          </DataTable>
+
+          <Dialog
+            visible={visible}
+            onHide={() => setVisible(false)}
+            header={formMode === "add" ? "Add Customer" : "Edit Customer"}
+            style={{ width: "30vw" }}
+            modal
+          >
+            <div className="p-fluid">
+              <div className="field">
+                <label>Name</label>
+                <InputText value={formData.name || ""} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+              </div>
+              <div className="field">
+                <label>Email</label>
+                <InputText value={formData.email || ""} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+              </div>
+              <div className="field">
+                <label>Phone</label>
+                <InputText value={formData.phone || ""} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
+              </div>
+              <div className="field">
+                <label>Address</label>
+                <InputText value={formData.address || ""} onChange={(e) => setFormData({ ...formData, address: e.target.value })} />
+              </div>
+              <div className="field">
+                <label>Credit Balance</label>
+                <InputText
+                  type="number"
+                  value={formData.creditBalance?.toString() || ""}
+                  onChange={(e) => setFormData({ ...formData, creditBalance: parseFloat(e.target.value) })}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-content-end gap-2 mt-4">
+              <Button label="Save" icon="pi pi-check" onClick={saveCustomer} />
+              <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={() => setVisible(false)} />
+            </div>
+          </Dialog>
         </div>
-      </Dialog>
+      </div>
     </div>
   );
 };
