@@ -89,9 +89,9 @@ export default function BillingPOS() {
   return (
     <div className="min-h-screen flex">
       <Sidebar />
-      <div className="flex flex-column w-full p-4">
+      <div className="flex flex-column w-full ml-6 mr-4">
         <TopNav />
-        <div>
+        <div className="p-1 flex-1 overflow-y-auto mb-4">
           <Toast ref={toast} />
           <h2>Billing / POS</h2>
           <div className="flex flex-wrap gap-2 align-items-center mb-4">

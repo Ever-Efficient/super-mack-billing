@@ -51,7 +51,6 @@ const Dashboard = () => {
       <Sidebar />
       <div className="flex flex-column w-full ml-6 mr-4">
         <TopNav />
-
         <div className="p-1 flex-1 overflow-y-auto mb-4">
           <h2>Dashboard</h2>
 

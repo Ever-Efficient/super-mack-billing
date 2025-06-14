@@ -92,9 +92,9 @@ const CustomerManagement = () => {
   return (
     <div className="min-h-screen flex">
       <Sidebar />
-      <div className="flex flex-column w-full p-4">
+      <div className="flex flex-column w-full ml-6 mr-4">
         <TopNav />
-        <div>
+        <div className="p-1 flex-1 overflow-y-auto mb-4">
           <Toast ref={toast} />
           <h2>Customers</h2>
 

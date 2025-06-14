@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard.tsx';
 import BillingMain from './pages/BillingMain.tsx';
 import Customers from './pages/Customers.tsx';
 import Products from './pages/Products.tsx';
+import Invoices from './pages/Invoices.tsx';
 
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -18,7 +19,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/billingMain" element={<BillingMain />} />
         <Route path="/customers" element={<Customers />} />
-        <Route path="/products" element={<Products />} />'
+        <Route path="/products" element={<Products />} />
+        <Route path='/invoices' element={<Invoices />} />
       </Routes>
     </Router>
   );
