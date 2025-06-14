@@ -51,40 +51,40 @@ const Dashboard = () => {
       <Sidebar />
       <div className="flex flex-column w-full ml-6 mr-4">
         <TopNav />
-        <div className="p-1 flex-1 overflow-y-auto mb-4">
+        <div className="p-1 flex-1 overflow-y-auto">
           <h2>Dashboard</h2>
 
           <div className="grid">
             <div className="col-12 md:col-6 xl:col-3">
               <Card className="shadow-2">
-                <div className="text-xl font-bold text-primary mb-1">Rs. 12,300</div>
+                <div className="text-xl font-bold text-primary">Rs. 12,300</div>
                 <div className="text-600">Daily Sales</div>
               </Card>
             </div>
 
             <div className="col-12 md:col-6 xl:col-3">
               <Card className="shadow-2">
-                <div className="text-xl font-bold text-orange-500 mb-1">7</div>
+                <div className="text-xl font-bold text-orange-500">7</div>
                 <div className="text-600">Outstanding Invoices</div>
               </Card>
             </div>
 
             <div className="col-12 md:col-6 xl:col-3">
               <Card className="shadow-2">
-                <div className="text-xl font-bold text-green-500 mb-1">126</div>
+                <div className="text-xl font-bold text-green-500">126</div>
                 <div className="text-600">Customers</div>
               </Card>
             </div>
 
             <div className="col-12 md:col-6 xl:col-3">
               <Card className="shadow-2">
-                <div className="text-xl font-bold text-pink-500 mb-1">349</div>
+                <div className="text-xl font-bold text-pink-500">349</div>
                 <div className="text-600">Products in Stock</div>
               </Card>
             </div>
           </div>
 
-          <div className="grid mt-4">
+          <div className="grid mt-2">
             <div className="col-12 md:col-8">
               <Card title="Weekly Sales Overview" className="shadow-2">
                 <Chart type="bar" data={salesChartData} options={salesChartOptions} />

@@ -131,7 +131,7 @@ const ProductsPage: React.FC = () => {
                     </div>
 
                     <div className="flex justify-content-between align-items-center mb-3">
-                        <Button label="Add Product" icon="pi pi-plus" onClick={openNew} />
+                        <Button label="Add Product" icon="pi pi-box" onClick={openNew} />
                         <InputText
                             placeholder="Search"
                             value={globalFilter}

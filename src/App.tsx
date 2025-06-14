@@ -6,8 +6,9 @@ import Customers from './pages/Customers.tsx';
 import Products from './pages/Products.tsx';
 import Invoices from './pages/Invoices.tsx';
 import Reports from './pages/Reports.tsx';
+import Settings from './pages/Settings.tsx';
 
-import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/themes/md-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
@@ -23,6 +24,7 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path='/invoices' element={<Invoices />} />
         <Route path="/reports" element={<Reports />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </Router>
   );
