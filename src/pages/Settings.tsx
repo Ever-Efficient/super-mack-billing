@@ -97,7 +97,7 @@ const Settings = () => {
           <h2 className="mb-3">Settings</h2>
 
           <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
-            {/* Business Profile */}
+
             <TabPanel header="Business Profile">
               <div className="grid p-fluid">
                 <div className="col-12 md:col-6">
@@ -140,7 +140,6 @@ const Settings = () => {
               <Button label="Save" icon="pi pi-check" onClick={handleSave} className="mt-3" />
             </TabPanel>
 
-            {/* User Management */}
             <TabPanel header="User Management">
               <div className="grid p-fluid">
                 <div className="col-12 md:col-6">
@@ -185,7 +184,7 @@ const Settings = () => {
                     placeholder="Select role"
                   />
                 </div>
-                <div className="col-12">
+                <div className="col-12 md:col-2">
                   <Button
                     label="Add User"
                     icon="pi pi-user-plus"
@@ -211,7 +210,6 @@ const Settings = () => {
               </div>
             </TabPanel>
 
-            {/* Tax & Invoice Formats */}
             <TabPanel header="Tax & Invoice Formats">
               <div className="grid p-fluid">
                 <div className="col-12 md:col-6">
