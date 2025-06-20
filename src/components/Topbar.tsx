@@ -56,9 +56,7 @@ const TopNav = () => {
   );
 
   return (
-    <div className="shadow-1">
-      <Menubar model={items} end={endTemplate} />
-    </div>
+    <Menubar className="mt-2" model={items} end={endTemplate} />
   );
 };
 

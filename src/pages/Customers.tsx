@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
@@ -7,17 +7,18 @@ import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
 import TopNav from '../components/Topbar';
 import { Sidebar } from '../components/Sidebar';
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface Customer {
-  id?: string;
-  name?: string;
-  email?: string;
-  phone?: string;
-  address?: string;
-  creditBalance?: number;
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  creditBalance: number;
 }
 
-const mockData: Customer[] = [
+const initialCustomers: Customer[] = [
   {
     id: "1",
     name: "John Doe",
@@ -32,17 +33,50 @@ const mockData: Customer[] = [
     email: "jane@example.com",
     phone: "0776543210",
     address: "Kandy, Sri Lanka",
-    creditBalance: 230.0,
+    creditBalance: 200.0,
   },
 ];
 
 const CustomerManagement = () => {
-  const [customers, setCustomers] = useState<Customer[]>(mockData);
+  const [customers, setCustomers] = useState(initialCustomers);
   const [globalFilter, setGlobalFilter] = useState("");
   const [visible, setVisible] = useState(false);
   const [formMode, setFormMode] = useState<"add" | "edit">("add");
-  const [formData, setFormData] = useState<Customer>({});
+  const [formData, setFormData] = useState<Partial<Customer>>({});
   const toast = useRef<Toast>(null);
+  const hasAddedCustomer = useRef(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const newCustomer = location.state?.newCustomer;
+
+    if (newCustomer && !hasAddedCustomer.current) {
+      console.log("Received new customer via navigation:", newCustomer);
+
+      const customerWithId: Customer = {
+        id: (Math.max(0, ...customers.map(c => parseInt(c.id))) + 1).toString(),
+        name: newCustomer.name,
+        email: newCustomer.email,
+        phone: newCustomer.phone,
+        address: newCustomer.address ?? "",
+        creditBalance: newCustomer.creditBalance ?? 0,
+      };
+
+      setCustomers((prev) => [...prev, customerWithId]);
+
+      toast.current?.show({
+        severity: "success",
+        summary: "Added",
+        detail: "Customer added.",
+      });
+
+      hasAddedCustomer.current = true;
+
+      navigate(location.pathname, { replace: true });
+    }
+  }, [customers, location.pathname, location.state, navigate]);
 
   const openModal = (mode: "add" | "edit", customer?: Customer) => {
     setFormMode(mode);
@@ -61,15 +95,26 @@ const CustomerManagement = () => {
     }
 
     if (formMode === "add") {
-      const newCustomer = {
-        ...formData,
-        id: (Math.max(0, ...customers.map(c => parseInt(c.id || "0"))) + 1).toString(),
+      const newCustomer: Customer = {
+        id: (Math.max(0, ...customers.map(c => parseInt(c.id))) + 1).toString(),
+        name: formData.name ?? "",
+        email: formData.email ?? "",
+        phone: formData.phone ?? "",
+        address: formData.address ?? "",
+        creditBalance: formData.creditBalance ?? 0,
       };
       setCustomers([...customers, newCustomer]);
       toast.current?.show({ severity: "success", summary: "Added", detail: "Customer added." });
     } else {
       setCustomers(prev =>
-        prev.map(c => (c.id === formData.id ? formData : c))
+        prev.map(c => (c.id === formData.id ? {
+          id: formData.id!,
+          name: formData.name ?? "",
+          email: formData.email ?? "",
+          phone: formData.phone ?? "",
+          address: formData.address ?? "",
+          creditBalance: formData.creditBalance ?? 0,
+        } : c))
       );
       toast.current?.show({ severity: "success", summary: "Updated", detail: "Customer updated." });
     }
@@ -92,19 +137,22 @@ const CustomerManagement = () => {
   return (
     <div className="min-h-screen flex">
       <Sidebar />
-      <div className="flex flex-column w-full ml-6 mr-4">
+      <div className="flex flex-column w-full ml-3 mr-2">
         <TopNav />
         <div className="p-1 flex-1 overflow-y-auto mb-4">
           <Toast ref={toast} />
           <h2>Customers</h2>
 
           <div className="flex justify-content-between align-items-center mb-3">
-            <Button label="Add Customer" icon="pi pi-user" onClick={() => openModal("add")} />
+            <Button
+              label="Add Customer"
+              icon="pi pi-user"
+              onClick={() => navigate("/customerForm")}
+            />
             <InputText
               placeholder="Search"
               value={globalFilter}
               onChange={(e) => setGlobalFilter(e.target.value)}
-              className="p-inputtext-sm"
             />
           </div>
 
@@ -121,7 +169,7 @@ const CustomerManagement = () => {
             <Column
               field="creditBalance"
               header="Credit Balance"
-              body={(row) => `$${row.creditBalance?.toFixed(2)}`}
+              body={(row) => `$${row.creditBalance.toFixed(2)}`}
             />
             <Column body={actionTemplate} header="Actions" />
           </DataTable>

@@ -153,7 +153,7 @@ const Invoices = () => {
     return (
         <div className="min-h-screen flex">
             <Sidebar />
-            <div className="flex flex-column w-full ml-6 mr-4">
+            <div className="flex flex-column w-full ml-3 mr-2">
                 <TopNav />
                 <div className="p-1 flex-1 overflow-y-auto mb-4">
                     <Toast ref={toast} />
@@ -221,70 +221,84 @@ const Invoices = () => {
                         onHide={() => setFormDialog(false)}
                         style={{ width: "40vw" }}
                     >
-                        <div className="p-fluid formgrid grid">
+                        <div className="p-fluid formgrid grid gap-3">
                             <div className="col-12">
+                                <label className="flex mb-2 ml-1" htmlFor="Invoice Number">Invoice Number</label>
                                 <InputText
+                                    className="w-full"
                                     value={formData.invoiceNumber}
                                     onChange={(e) => setFormData({ ...formData, invoiceNumber: e.target.value })}
                                     placeholder="Invoice Number"
                                 />
                             </div>
                             <div className="col-12">
+                                <label className="flex mb-2 ml-1" htmlFor="Reference">Reference</label>
                                 <InputText
+                                    className="w-full"
                                     value={formData.reference}
                                     onChange={(e) => setFormData({ ...formData, reference: e.target.value })}
                                     placeholder="Reference"
                                 />
                             </div>
                             <div className="col-12">
+                                <label className="flex mb-2 ml-1" htmlFor="Customer Name">Customer Name</label>
                                 <InputText
+                                    className="w-full"
                                     value={formData.contactName}
                                     onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
                                     placeholder="Customer Name"
                                 />
                             </div>
-                            <div className="col-6">
-                                <Calendar
-                                    value={new Date(formData.date)}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, date: (e.value as Date).toISOString() })
-                                    }
-                                    showIcon
-                                    placeholder="Invoice Date"
-                                />
+                            <div className="grid col-12 mt-1">
+                                <div className="col-6">
+                                    <label className="flex mb-2 ml-1" htmlFor="Invoice Date">Invoice Date</label>
+                                    <Calendar
+                                        className="w-full"
+                                        value={new Date(formData.date)}
+                                        onChange={(e) => setFormData({ ...formData, date: (e.value as Date).toISOString() })}
+                                        showIcon
+                                        placeholder="Invoice Date"
+                                    />
+                                </div>
+                                <div className="col-6">
+                                    <label className="flex mb-2 ml-1" htmlFor="Due Date">Due Date</label>
+                                    <Calendar
+                                        className="w-full"
+                                        value={new Date(formData.dueDate)}
+                                        onChange={(e) => setFormData({ ...formData, dueDate: (e.value as Date).toISOString() })}
+                                        showIcon
+                                        placeholder="Due Date"
+                                    />
+                                </div>
                             </div>
-                            <div className="col-6">
-                                <Calendar
-                                    value={new Date(formData.dueDate)}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, dueDate: (e.value as Date).toISOString() })
-                                    }
-                                    showIcon
-                                    placeholder="Due Date"
-                                />
-                            </div>
-                            <div className="col-6">
-                                <Dropdown
-                                    value={formData.amountTypeName}
-                                    options={["Exclusive", "Inclusive"]}
-                                    onChange={(e) => setFormData({ ...formData, amountTypeName: e.value })}
-                                    placeholder="Amount Type"
-                                />
-                            </div>
-                            <div className="col-6">
-                                <Dropdown
-                                    value={formData.paymentTypeName}
-                                    options={["Cash", "Card", "Bank Transfer"]}
-                                    onChange={(e) => setFormData({ ...formData, paymentTypeName: e.value })}
-                                    placeholder="Payment Method"
-                                />
+                            <div className="grid col-12 mt-1">
+                                <div className="col-6">
+                                    <label className="flex mb-2 ml-1" htmlFor="Amount Type">Amount Type</label>
+                                    <Dropdown
+                                        className="w-full"
+                                        value={formData.amountTypeName}
+                                        options={["Exclusive", "Inclusive"]}
+                                        onChange={(e) => setFormData({ ...formData, amountTypeName: e.value })}
+                                        placeholder="Amount Type"
+                                    />
+                                </div>
+                                <div className="col-6">
+                                    <label className="flex mb-2 ml-1" htmlFor="Payment Method">Payment Method</label>
+                                    <Dropdown
+                                        className="w-full"
+                                        value={formData.paymentTypeName}
+                                        options={["Cash", "Card", "Bank Transfer"]}
+                                        onChange={(e) => setFormData({ ...formData, paymentTypeName: e.value })}
+                                        placeholder="Payment Method"
+                                    />
+                                </div>
                             </div>
                             <div className="col-12">
+                                <label className="flex mb-2 ml-1" htmlFor="Total Amount">Total Amount</label>
                                 <InputNumber
+                                    className="w-full"
                                     value={formData.total}
-                                    onValueChange={(e) =>
-                                        setFormData({ ...formData, total: e.value ?? 0 })
-                                    }
+                                    onValueChange={(e) => setFormData({ ...formData, total: e.value ?? 0 })}
                                     mode="currency"
                                     currency="USD"
                                     locale="en-US"
@@ -292,11 +306,13 @@ const Invoices = () => {
                                 />
                             </div>
                         </div>
+
                         <div className="flex justify-content-end gap-2 mt-4">
                             <Button label="Cancel" onClick={() => setFormDialog(false)} className="p-button-secondary" />
                             <Button label={isEditing ? "Update" : "Create"} onClick={submitNewInvoice} autoFocus />
                         </div>
                     </Dialog>
+
                 </div>
             </div>
         </div>

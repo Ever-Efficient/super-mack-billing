@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { DataTable } from "primereact/datatable";
@@ -9,6 +9,8 @@ import { Dropdown } from "primereact/dropdown";
 import { FileUpload } from "primereact/fileupload";
 import TopNav from '../components/Topbar';
 import { Sidebar } from '../components/Sidebar';
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import type { FileUploadHandlerEvent } from "primereact/fileupload";
 import { Toast } from "primereact/toast";
@@ -44,12 +46,10 @@ const ProductsPage: React.FC = () => {
     const [formData, setFormData] = useState<ProductData>({ ...defaultProduct });
     const toast = useRef<Toast>(null);
     const [globalFilter, setGlobalFilter] = useState("");
+    const location = useLocation();
+    const hasAddedProduct = useRef(false);
 
-    const openNew = () => {
-        setFormData({ ...defaultProduct });
-        setSelectedProduct(null);
-        setModalVisible(true);
-    };
+    const navigate = useNavigate();
 
     const openEdit = (product: ProductData) => {
         setFormData(product);
@@ -119,10 +119,23 @@ const ProductsPage: React.FC = () => {
         );
     };
 
+    useEffect(() => {
+        const newProduct = location.state?.newProduct;
+
+        if (newProduct && !hasAddedProduct.current) {
+            setProducts(prev => [...prev, newProduct]);
+            toast.current?.show({ severity: "success", summary: "Added", detail: "Product added.", life: 2000 });
+            hasAddedProduct.current = true;
+
+            // Clear navigation state so reloading doesn't re-add
+            navigate(location.pathname, { replace: true });
+        }
+    }, [location.state, navigate, location.pathname]);
+
     return (
         <div className="min-h-screen flex">
             <Sidebar />
-            <div className="flex flex-column w-full ml-6 mr-4">
+            <div className="flex flex-column w-full ml-3 mr-2">
                 <TopNav />
                 <div className="p-1 flex-1 overflow-y-auto mb-4">
                     <Toast ref={toast} />
@@ -131,12 +144,15 @@ const ProductsPage: React.FC = () => {
                     </div>
 
                     <div className="flex justify-content-between align-items-center mb-3">
-                        <Button label="Add Product" icon="pi pi-box" onClick={openNew} />
+                        <Button
+                            label="Add Product"
+                            icon="pi pi-user"
+                            onClick={() => navigate("/productForm")}
+                        />
                         <InputText
                             placeholder="Search"
                             value={globalFilter}
                             onChange={(e) => setGlobalFilter(e.target.value)}
-                            className="p-inputtext-sm"
                         />
                     </div>
 

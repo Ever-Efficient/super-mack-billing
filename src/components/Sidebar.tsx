@@ -43,9 +43,11 @@ export const Sidebar = () => {
   ];
 
   return (
-    <div className="surface-0 p-3 shadow-2 h-screen w-18rem">
-      <h3 className="text-xl font-semibold mb-4 text-primary">Super Mack</h3>
-      <Menu model={items} className="w-full" />
+
+    <div>
+      <h1>Super Mack</h1>
+      <Menu model={items} />
     </div>
+
   );
 };

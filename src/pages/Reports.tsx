@@ -93,7 +93,7 @@ const Reports = () => {
     return (
         <div className="min-h-screen flex">
             <Sidebar />
-            <div className="flex flex-column w-full ml-6 mr-4">
+            <div className="flex flex-column w-full ml-3 mr-2">
                 <TopNav />
                 <div className="p-1 flex-1 overflow-y-auto mb-4">
                     <h2>Reports</h2>
