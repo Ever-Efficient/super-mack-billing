@@ -9,6 +9,26 @@ Currently, two official plugins are available:
 
 ## Expanding the ESLint configuration
 
+
+App Login Data
+
+  {
+    Role: "Admin",
+    email: "admin@company.com",
+    password: "admin123",
+  },
+  {
+    Role: "Manager",
+    email: "manager@company.com",
+    password: "manager123",
+  },
+  {
+    Role: "Viewer",
+    email: "viewer@company.com",
+    password: "viewer123",
+  },
+  
+
 If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
 ```js
