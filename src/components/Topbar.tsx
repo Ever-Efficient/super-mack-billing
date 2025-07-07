@@ -7,10 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const TopNav = () => {
   const navigate = useNavigate();
 
-  const user = {
-    name: localStorage.getItem('username') || 'Admin',
-    avatar: '',
-  };
+  const role = localStorage.getItem('role') || 'Unknown Role';
 
   const items = [
     {
@@ -38,7 +35,9 @@ const TopNav = () => {
           shape="circle"
           size="large"
         />
-        <span className="text-sm font-semibold">{user.name}</span>
+        <div className="flex flex-column">
+          <small className="text-xs text-500">{role}</small>
+        </div>
       </div>
 
       <Button
@@ -47,6 +46,7 @@ const TopNav = () => {
         onClick={() => {
           localStorage.removeItem('token');
           localStorage.removeItem('username');
+          localStorage.removeItem('role');
           navigate('/');
         }}
         tooltip="Logout"
@@ -55,9 +55,7 @@ const TopNav = () => {
     </div>
   );
 
-  return (
-    <Menubar className="mt-2" model={items} end={endTemplate} />
-  );
+  return <Menubar className="mt-2" model={items} end={endTemplate} />;
 };
 
 export default TopNav;

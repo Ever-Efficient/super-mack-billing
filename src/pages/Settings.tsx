@@ -11,7 +11,6 @@ const Settings = () => {
   const toast = useRef<Toast>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Business Profile
   const [profile, setProfile] = useState({
     companyName: "",
     address: "",
@@ -19,14 +18,12 @@ const Settings = () => {
     phone: "",
   });
 
-  // Invoice Settings
   const [invoiceSettings, setInvoiceSettings] = useState({
     taxType: "GST",
     invoicePrefix: "INV",
     nextInvoiceNumber: 1001,
   });
 
-  // User Management with 3 mock users
   const [users, setUsers] = useState<
     { name: string; email: string; password: string; role: string }[]
   >([

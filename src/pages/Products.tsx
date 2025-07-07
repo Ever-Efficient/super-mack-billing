@@ -127,7 +127,6 @@ const ProductsPage: React.FC = () => {
             toast.current?.show({ severity: "success", summary: "Added", detail: "Product added.", life: 2000 });
             hasAddedProduct.current = true;
 
-            // Clear navigation state so reloading doesn't re-add
             navigate(location.pathname, { replace: true });
         }
     }, [location.state, navigate, location.pathname]);

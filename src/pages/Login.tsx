@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { usersData } from '../assets/data/userdata';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -15,8 +16,15 @@ export default function Login() {
       return;
     }
 
-    if (email === 'admin@example.com' && password === 'admin') {
+    const matchedUser = usersData.find(
+      (user) => user.email === email && user.password === password
+    );
+
+    if (matchedUser) {
       localStorage.setItem('token', 'mock-jwt-token');
+      localStorage.setItem('role', matchedUser.role);
+      localStorage.setItem('user', JSON.stringify(matchedUser));
+
       navigate('/dashboard');
     } else {
       setError('Invalid email or password');
