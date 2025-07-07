@@ -37,7 +37,7 @@ const initialCustomers: Customer[] = [
   },
 ];
 
-const CustomerManagement = () => {
+export default function CustomerManagement () {
   const [customers, setCustomers] = useState(initialCustomers);
   const [globalFilter, setGlobalFilter] = useState("");
   const [visible, setVisible] = useState(false);
@@ -218,5 +218,3 @@ const CustomerManagement = () => {
     </div>
   );
 };
-
-export default CustomerManagement;

@@ -7,7 +7,7 @@ import { Toast } from "primereact/toast";
 import TopNav from '../components/Topbar';
 import { Sidebar } from '../components/Sidebar';
 
-const Settings = () => {
+export default function Settings () {
   const toast = useRef<Toast>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -252,5 +252,3 @@ const Settings = () => {
     </div>
   );
 };
-
-export default Settings;

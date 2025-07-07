@@ -8,7 +8,7 @@ import TopNav from "../components/Topbar";
 import { Sidebar } from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 
-const ProductFormPage = () => {
+export default function ProductFormPage () {
   const [productData, setProductData] = useState<{
     name: string;
     category: string;
@@ -108,5 +108,3 @@ const ProductFormPage = () => {
     </div>
   );
 };
-
-export default ProductFormPage;

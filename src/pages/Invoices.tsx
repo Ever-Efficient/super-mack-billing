@@ -24,7 +24,7 @@ interface Invoice {
     total: number;
 }
 
-const Invoices = () => {
+export default function Invoices () {
     const toast = useRef<Toast>(null);
     const [invoices, setInvoices] = useState<Invoice[]>([]);
     const [dialog, setDialog] = useState(false);
@@ -318,5 +318,3 @@ const Invoices = () => {
         </div>
     );
 };
-
-export default Invoices;

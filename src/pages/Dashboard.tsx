@@ -4,7 +4,7 @@ import { Button } from 'primereact/button';
 import TopNav from '../components/Topbar';
 import { Sidebar } from '../components/Sidebar';
 
-const Dashboard = () => {
+export default function Dashboard () {
   const salesChartData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [
@@ -106,5 +106,3 @@ const Dashboard = () => {
     </div>
   );
 };
-
-export default Dashboard;

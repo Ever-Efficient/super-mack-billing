@@ -7,7 +7,7 @@ import TopNav from "../components/Topbar";
 import { Sidebar } from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 
-const CustomerFormPage = () => {
+export default function CustomerFormPage () {
   const [customerData, setCustomerData] = useState<{
     name: string;
     email: string;
@@ -94,5 +94,3 @@ const CustomerFormPage = () => {
     </div>
   );
 };
-
-export default CustomerFormPage;

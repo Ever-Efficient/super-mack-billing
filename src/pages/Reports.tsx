@@ -24,7 +24,7 @@ const dummyData = [
     { date: "2024-08-03", customer: "Michael Brown", product: "Product C", total: 500 },
 ];
 
-const Reports = () => {
+export default function Reports () {
     const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
     const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
 
@@ -151,5 +151,3 @@ const Reports = () => {
         </div>
     );
 };
-
-export default Reports;
