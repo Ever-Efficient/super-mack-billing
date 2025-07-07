@@ -32,15 +32,16 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-content-center align-items-center min-h-screen">
-      <form onSubmit={handleLogin} className="surface-card p-4 shadow-2 border-round w-full sm:w-20rem">
-        <h2 className="text-center">Login</h2>
+    <div className="flex justify-content-center align-items-center min-h-screen surface-ground">
+      <form onSubmit={handleLogin} className="surface-card p-4 shadow-2 border-round w-full sm:w-25rem">
+        <h1 className="text-center mb-3">Super Mack Billing</h1>        
+        <h2 className="text-center mb-3">Login</h2>
 
         {error && (
           <div className="p-error mb-3 text-sm text-red-600">{error}</div>
         )}
 
-        <div className="field">
+        <div className="field mb-3">
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -52,7 +53,7 @@ export default function Login() {
           />
         </div>
 
-        <div className="field">
+        <div className="field mb-3">
           <label htmlFor="password">Password</label>
           <input
             id="password"
@@ -64,7 +65,10 @@ export default function Login() {
           />
         </div>
 
-        <button type="submit" className="p-button p-component w-full mt-2">
+        <button
+          type="submit"
+          className="p-button p-component w-full mt-2 justify-content-center"
+        >
           Login
         </button>
       </form>
