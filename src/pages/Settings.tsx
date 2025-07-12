@@ -40,7 +40,6 @@ export default function Settings () {
   });
 
   const roleOptions = [
-    { label: "Admin", value: "Admin" },
     { label: "Manager", value: "Manager" },
     { label: "Viewer", value: "Viewer" },
   ];

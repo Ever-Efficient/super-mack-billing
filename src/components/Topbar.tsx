@@ -8,6 +8,7 @@ const TopNav = () => {
   const navigate = useNavigate();
 
   const role = localStorage.getItem('role') || 'Unknown Role';
+  const username = localStorage.getItem('username') || 'User';
 
   const items = [
     {
@@ -36,6 +37,7 @@ const TopNav = () => {
           size="large"
         />
         <div className="flex flex-column">
+          <span className="text-sm font-medium">{username}</span>
           <small className="text-xs text-500">{role}</small>
         </div>
       </div>

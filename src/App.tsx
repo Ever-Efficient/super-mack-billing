@@ -10,6 +10,7 @@ import Invoices from './pages/Invoices';
 import Reports from './pages/Reports';
 import Settings from './pages/Settings';
 import Unauthorized from './components/Unauthorized';
+import Users from './pages/UsersPage';
 
 import PrivateRoute from './components/PrivateRoute';
 
@@ -27,6 +28,7 @@ function App() {
 
         <Route element={<PrivateRoute allowedRoles={['Admin']} />}>
           <Route path="/settings" element={<Settings />} />
+          <Route path='/users' element={< Users />} />
         </Route>
 
         <Route element={<PrivateRoute allowedRoles={['Admin', 'Manager']} />}>

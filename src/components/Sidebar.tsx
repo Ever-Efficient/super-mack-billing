@@ -36,6 +36,11 @@ export const Sidebar = () => {
       command: () => navigate('/reports'),
     },
     {
+      label: 'Users',
+      icon: 'pi pi-user',
+      command: () => navigate('/users'),
+    },
+    {
       label: 'Settings',
       icon: 'pi pi-cog',
       command: () => navigate('/settings'),
