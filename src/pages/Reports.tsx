@@ -100,7 +100,7 @@ export default function Reports () {
                     <div className="flex align-items-end justify-content-between flex-wrap gap-4 mb-4">
                         <div className="flex gap-4 flex-wrap">
                             <div className="flex flex-column">
-                                <label htmlFor="customer">Customer:</label>
+                                <label className="mb-2" htmlFor="customer">Customer:</label>
                                 <Dropdown
                                     id="customer"
                                     value={selectedCustomer}
@@ -111,7 +111,7 @@ export default function Reports () {
                             </div>
 
                             <div className="flex flex-column">
-                                <label htmlFor="product">Product:</label>
+                                <label className="mb-2" htmlFor="product">Product:</label>
                                 <Dropdown
                                     id="product"
                                     value={selectedProduct}

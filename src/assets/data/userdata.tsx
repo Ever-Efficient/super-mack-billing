@@ -6,7 +6,8 @@ export interface User {
   role: "Admin" | "Manager" | "Viewer";
 }
 
-export const usersData: User[] = [
+export const usersData: User[] = 
+[
   {
     id: "1",
     name: "Alice Admin",
