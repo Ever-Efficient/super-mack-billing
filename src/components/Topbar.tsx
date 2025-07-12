@@ -4,7 +4,7 @@ import { Badge } from 'primereact/badge';
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
 
-const TopNav = () => {
+export default function TopNav  () {
   const navigate = useNavigate();
 
   const role = localStorage.getItem('role') || 'Unknown Role';
@@ -57,5 +57,3 @@ const TopNav = () => {
 
   return <Menubar className="mt-2" model={items} end={endTemplate} />;
 };
-
-export default TopNav;
