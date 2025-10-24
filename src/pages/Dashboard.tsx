@@ -3,8 +3,11 @@ import { Chart } from 'primereact/chart';
 import { Button } from 'primereact/button';
 import TopNav from '../components/Topbar';
 import { Sidebar } from '../components/Sidebar';
+import { useNavigate } from 'react-router-dom';
 
-export default function Dashboard () {
+export default function Dashboard() {
+  const navigate = useNavigate();
+
   const salesChartData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [
@@ -94,9 +97,9 @@ export default function Dashboard () {
             <div className="col-12 md:col-4">
               <Card title="Quick Actions" className="shadow-2">
                 <div className="flex flex-column gap-2">
-                  <Button label="Create Invoice" icon="pi pi-plus" className="p-button-success w-full" />
-                  <Button label="Add Product" icon="pi pi-box" className="p-button-secondary w-full" />
-                  <Button label="Add Customer" icon="pi pi-user-plus" className="p-button-info w-full" />
+                  <Button label="Create Invoice" icon="pi pi-plus" className="p-button-success w-full" onClick={() => {navigate('/invoices')}} />
+                  <Button label="Add Product" icon="pi pi-box" className="p-button-secondary w-full" onClick={() => {navigate('/productForm')}} />
+                  <Button label="Add Customer" icon="pi pi-user-plus" className="p-button-info w-full" onClick={() => {navigate('/customerForm')}} />
                 </div>
               </Card>
             </div>
