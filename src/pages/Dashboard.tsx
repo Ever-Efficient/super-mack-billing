@@ -25,14 +25,14 @@ export default function Dashboard() {
     plugins: {
       legend: {
         labels: {
-          color: '#495057',
+          color: '#ffffff',
         },
       },
     },
     scales: {
       x: {
         ticks: {
-          color: '#495057',
+          color: '#ffffff',
         },
         grid: {
           color: '#ebedef',
@@ -40,7 +40,7 @@ export default function Dashboard() {
       },
       y: {
         ticks: {
-          color: '#495057',
+          color: '#ffffff',
         },
         grid: {
           color: '#ebedef',
@@ -57,7 +57,7 @@ export default function Dashboard() {
         <div className="p-1 flex-1 overflow-y-auto">
           <h2>Dashboard</h2>
 
-          <div className="grid">
+          <div className="flex flex-wrap">
             <div className="col-12 md:col-6 xl:col-3">
               <Card className="shadow-2">
                 <div className="text-xl font-bold text-primary">Rs. 12,300</div>
@@ -87,7 +87,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="grid mt-2">
+          <div className="flex flex-wrap mt-2">
             <div className="col-12 md:col-8">
               <Card title="Weekly Sales Overview" className="shadow-2">
                 <Chart type="bar" data={salesChartData} options={salesChartOptions} />
