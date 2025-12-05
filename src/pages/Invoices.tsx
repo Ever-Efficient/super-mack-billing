@@ -84,7 +84,51 @@ export default function Invoices() {
     };
 
     const handlePrint = () => {
-        window.print();
+        if (!selected) return;
+
+        const dialogContent = document.querySelector(".p-dialog-content");
+        if (!dialogContent) return;
+
+        const cloned = dialogContent.cloneNode(true) as HTMLElement;
+
+        const content = cloned.innerHTML;
+
+        const iframe = document.createElement("iframe");
+        iframe.style.position = "fixed";
+        iframe.style.right = "0";
+        iframe.style.bottom = "0";
+        iframe.style.width = "0";
+        iframe.style.height = "0";
+        iframe.style.border = "0";
+
+        document.body.appendChild(iframe);
+
+        const doc = iframe.contentWindow?.document;
+        if (!doc) return;
+
+        doc.open();
+        doc.write(`
+            <html>
+            <head>
+                <title>Invoice Print</title>
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 20px; }
+                    h2, h3 { margin: 0; }
+                </style>
+            </head>
+            <body>${content}</body>
+            </html>
+        `);
+        doc.close();
+
+        iframe.onload = function () {
+            iframe.contentWindow?.focus();
+            iframe.contentWindow?.print();
+
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+            }, 500);
+        };
     };
 
     const handleExportPDF = (invoice: Invoice) => {
@@ -163,18 +207,18 @@ export default function Invoices() {
                             icon="pi pi-plus"
                             className="p-button-primary"
                             onClick={handleCreateNew}
-                            /*model={[
-                                {
-                                    label: "Import",
-                                    icon: "pi pi-upload",
-                                    command: () =>
-                                        toast.current?.show({
-                                            severity: "info",
-                                            summary: "Import",
-                                            detail: "Import dialog coming soon",
-                                        }),
-                                },
-                            ]}*/
+                        /*model={[
+                            {
+                                label: "Import",
+                                icon: "pi pi-upload",
+                                command: () =>
+                                    toast.current?.show({
+                                        severity: "info",
+                                        summary: "Import",
+                                        detail: "Import dialog coming soon",
+                                    }),
+                            },
+                        ]}*/
                         />
                         <InputText
                             placeholder="Search"
@@ -211,11 +255,27 @@ export default function Invoices() {
                     </DataTable>
 
                     <Dialog
-                        header="Invoice Preview"
+                        header={`Invoice Preview`}
                         visible={dialog}
                         onHide={() => setDialog(false)}
                         style={{ width: "45rem" }}
                         draggable={false}
+                        footer={
+                            <div className="flex justify-content-end gap-2">
+                                <Button
+                                    label="Print"
+                                    icon="pi pi-print"
+                                    severity="secondary"
+                                    onClick={handlePrint}
+                                />
+                                <Button
+                                    label="Export PDF"
+                                    icon="pi pi-file-pdf"
+                                    severity="danger"
+                                    onClick={() => handleExportPDF(selected!)}
+                                />
+                            </div>
+                        }
                     >
                         {selected && (
                             <div className="p-3">
@@ -249,25 +309,9 @@ export default function Invoices() {
                                         {formatAmount(selected.total)}
                                     </h2>
                                 </div>
-
-                                <div className="flex justify-content-end gap-2 mt-4">
-                                    <Button
-                                        label="Print"
-                                        icon="pi pi-print"
-                                        severity="secondary"
-                                        onClick={handlePrint}
-                                    />
-                                    <Button
-                                        label="Export PDF"
-                                        icon="pi pi-file-pdf"
-                                        severity="danger"
-                                        onClick={() => handleExportPDF(selected)}
-                                    />
-                                </div>
                             </div>
                         )}
                     </Dialog>
-
 
                     <Dialog
                         header={isEditing ? "Edit Invoice" : "Create New Invoice"}
