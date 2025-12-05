@@ -107,10 +107,17 @@ export default function BillingPOS() {
               value={searchInput}
               onChange={(e) => {
                 setSearchInput(e.target.value);
-                const found = catalog.find((it) => it.name.toLowerCase().includes(e.target.value.toLowerCase()));
+                const found = catalog.find((it) =>
+                  it.name.toLowerCase().includes(e.target.value.toLowerCase())
+                );
                 if (found) { addItemToInvoice(found); setSearchInput(""); }
               }}
             />
+
+            <div className="flex gap-2 ml-auto">
+              <Button label="Save Invoice" icon="pi pi-save" onClick={handleSave} />
+              <Button label="Print Invoice" icon="pi pi-print" onClick={handlePrint} />
+            </div>
           </div>
 
           <DataTable value={invoiceLines} className="w-full mb-4">
@@ -147,11 +154,6 @@ export default function BillingPOS() {
             <div className="mr-8">Subtotal: <b>LKR {subtotal.toFixed(2)}</b></div>
             <div className="mr-8">Tax 10%: <b>LKR {tax.toFixed(2)}</b></div>
             <div>Total: <b>LKR {total.toFixed(2)}</b></div>
-          </div>
-
-          <div className="flex gap-4 justify-content-end">
-            <Button label="Save Invoice" icon="pi pi-save" onClick={handleSave} />
-            <Button label="Print Invoice" icon="pi pi-print" onClick={handlePrint} />
           </div>
         </div>
       </div>
