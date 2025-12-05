@@ -166,7 +166,7 @@ const ProductsPage: React.FC = () => {
                         <Column
                             field="price"
                             header="Price"
-                            body={(row) => (row.price != null ? `$${row.price.toFixed(2)}` : "")}
+                            body={(row) => (row.price != null ? `LKR-{row.price.toFixed(2)}` : "")}
                             sortable
                         />
                         <Column field="stock" header="Stock" sortable />

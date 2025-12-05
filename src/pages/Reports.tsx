@@ -15,8 +15,8 @@ import * as XLSX from "xlsx";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 
-const customers = ["John Doe", "Jane Smith", "Michael Brown"];
-const products = ["Product A", "Product B", "Product C"];
+const customers = ["All", "John Doe", "Jane Smith", "Michael Brown"];
+const products = ["All", "Product A", "Product B", "Product C"];
 
 const dummyData = [
     { date: "2024-08-01", customer: "John Doe", product: "Product A", total: 700 },
@@ -24,13 +24,20 @@ const dummyData = [
     { date: "2024-08-03", customer: "Michael Brown", product: "Product C", total: 500 },
 ];
 
-export default function Reports () {
-    const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
-    const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
+export default function Reports() {
+    const [selectedCustomer, setSelectedCustomer] = useState<string>("All");
+    const [selectedProduct, setSelectedProduct] = useState<string>("All");
 
     const filteredData = dummyData.filter((item) => {
-        const matchesCustomer = !selectedCustomer || item.customer === selectedCustomer;
-        const matchesProduct = !selectedProduct || item.product === selectedProduct;
+        const matchesCustomer =
+            !selectedCustomer ||
+            selectedCustomer === "All" ||
+            item.customer === selectedCustomer;
+
+        const matchesProduct =
+            !selectedProduct ||
+            selectedProduct === "All" ||
+            item.product === selectedProduct;
         return matchesCustomer && matchesProduct;
     });
 
@@ -90,6 +97,11 @@ export default function Reports () {
         XLSX.writeFile(workbook, "sales-report.xlsx");
     };
 
+    const handleUpdate = () => {
+        setSelectedCustomer("All");
+        setSelectedProduct("All");
+    };
+
     return (
         <div className="min-h-screen flex">
             <Sidebar />
@@ -123,7 +135,7 @@ export default function Reports () {
                         </div>
 
                         <div className="flex gap-2 flex-wrap">
-                            <Button label="Update" icon="pi pi-refresh" className="p-button-info" />
+                            <Button label="Update" icon="pi pi-refresh" className="p-button-info" onClick={handleUpdate} />
                             <Button label="PDF" icon="pi pi-file-pdf" className="p-button-success" onClick={exportPDF} />
                             <Button label="Excel" icon="pi pi-file-excel" className="p-button-success" onClick={exportExcel} />
                         </div>

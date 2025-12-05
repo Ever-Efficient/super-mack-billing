@@ -139,14 +139,14 @@ export default function BillingPOS() {
                 />
               )}
             />
-            <Column header="Line Total" body={(r) => `$${(r.qty * r.price).toFixed(2)}`} />
+            <Column header="Line Total" body={(r) => `LKR.${(r.qty * r.price).toFixed(2)}`} />
             <Column header="Actions" body={(row) => <Button icon="pi pi-trash" className="p-button-text p-button-danger" onClick={() => removeLine(row.lineId)} />} />
           </DataTable>
 
           <div className="flex justify-content-end mb-4">
-            <div className="mr-8">Subtotal: <b>${subtotal.toFixed(2)}</b></div>
-            <div className="mr-8">Tax 10%: <b>${tax.toFixed(2)}</b></div>
-            <div>Total: <b>${total.toFixed(2)}</b></div>
+            <div className="mr-8">Subtotal: <b>LKR {subtotal.toFixed(2)}</b></div>
+            <div className="mr-8">Tax 10%: <b>LKR {tax.toFixed(2)}</b></div>
+            <div>Total: <b>LKR {total.toFixed(2)}</b></div>
           </div>
 
           <div className="flex gap-4 justify-content-end">

@@ -169,7 +169,7 @@ export default function CustomerManagement () {
             <Column
               field="creditBalance"
               header="Credit Balance"
-              body={(row) => `$${row.creditBalance.toFixed(2)}`}
+              body={(row) => `LKR ${row.creditBalance.toFixed(2)}`}
             />
             <Column body={actionTemplate} header="Actions" />
           </DataTable>

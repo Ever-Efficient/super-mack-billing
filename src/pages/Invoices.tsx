@@ -24,7 +24,7 @@ interface Invoice {
     total: number;
 }
 
-export default function Invoices () {
+export default function Invoices() {
     const toast = useRef<Toast>(null);
     const [invoices, setInvoices] = useState<Invoice[]>([]);
     const [dialog, setDialog] = useState(false);
@@ -148,7 +148,7 @@ export default function Invoices () {
     };
 
     const formatAmount = (amount: number) =>
-        amount.toLocaleString(undefined, { style: "currency", currency: "USD" });
+        amount.toLocaleString(undefined, { style: "currency", currency: "LKR" });
 
     return (
         <div className="min-h-screen flex">
@@ -159,12 +159,12 @@ export default function Invoices () {
                     <Toast ref={toast} />
                     <h2>Invoices</h2>
                     <div className="flex justify-content-between align-items-center mb-3">
-                        <SplitButton
+                        <Button
                             label="New Invoice"
                             icon="pi pi-plus"
                             className="p-button-primary"
                             onClick={handleCreateNew}
-                            model={[
+                            /*model={[
                                 {
                                     label: "Import",
                                     icon: "pi pi-upload",
@@ -175,7 +175,7 @@ export default function Invoices () {
                                             detail: "Import dialog coming soon",
                                         }),
                                 },
-                            ]}
+                            ]}*/
                         />
                         <InputText
                             placeholder="Search"
@@ -203,23 +203,79 @@ export default function Invoices () {
                                 <div className="flex gap-2">
                                     <Button icon="pi pi-eye" tooltip="View" onClick={() => handlePreview(rowData)} text severity="info" />
                                     <Button icon="pi pi-pencil" tooltip="Edit" onClick={() => handleEdit(rowData)} text severity="warning" />
-                                    <Button icon="pi pi-print" tooltip="Print" onClick={() => handlePrint()} text />
-                                    <Button icon="pi pi-file-pdf" tooltip="Export PDF" onClick={() => handleExportPDF(rowData)} text severity="secondary" />
+                                    {/*<Button icon="pi pi-print" tooltip="Print" onClick={() => handlePrint()} text />
+                                    <Button icon="pi pi-file-pdf" tooltip="Export PDF" onClick={() => handleExportPDF(rowData)} text severity="secondary" />*/}
                                     <Button icon="pi pi-trash" tooltip="Delete" onClick={() => handleDelete(rowData)} text severity="danger" />
                                 </div>
                             )}
                         />
                     </DataTable>
 
-                    <Dialog header="Invoice Preview" visible={dialog} onHide={() => setDialog(false)} style={{ width: "50vw" }}>
-                        <pre>{JSON.stringify(selected, null, 2)}</pre>
+                    <Dialog
+                        header="Invoice Preview"
+                        visible={dialog}
+                        onHide={() => setDialog(false)}
+                        style={{ width: "45rem" }}
+                        draggable={false}
+                    >
+                        {selected && (
+                            <div className="p-3">
+                                <div className="mb-4">
+                                    <h2 className="m-0">Invoice #{selected.invoiceNumber}</h2>
+                                    <p className="text-sm text-gray-600 mt-1">Reference: {selected.reference}</p>
+                                </div>
+
+                                <div className="grid mb-4">
+                                    <div className="col-6">
+                                        <h4 className="m-0">Customer</h4>
+                                        <p className="mt-2 text-sm">{selected.contactName}</p>
+                                    </div>
+
+                                    <div className="col-6">
+                                        <h4 className="m-0">Invoice Details</h4>
+                                        <p className="mt-2 text-sm">
+                                            <strong>Date:</strong> {getDate(selected.date)} <br />
+                                            <strong>Due Date:</strong> {getDate(selected.dueDate)} <br />
+                                            <strong>Amount Type:</strong> {selected.amountTypeName} <br />
+                                            <strong>Payment Type:</strong> {selected.paymentTypeName}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <hr />
+
+                                <div className="flex justify-content-between align-items-center mt-4">
+                                    <h3 className="m-0">Total</h3>
+                                    <h2 className="m-0" style={{ color: "#0f6bff" }}>
+                                        {formatAmount(selected.total)}
+                                    </h2>
+                                </div>
+
+                                <div className="flex justify-content-end gap-2 mt-4">
+                                    <Button
+                                        label="Print"
+                                        icon="pi pi-print"
+                                        severity="secondary"
+                                        onClick={handlePrint}
+                                    />
+                                    <Button
+                                        label="Export PDF"
+                                        icon="pi pi-file-pdf"
+                                        severity="danger"
+                                        onClick={() => handleExportPDF(selected)}
+                                    />
+                                </div>
+                            </div>
+                        )}
                     </Dialog>
+
 
                     <Dialog
                         header={isEditing ? "Edit Invoice" : "Create New Invoice"}
                         visible={formDialog}
                         onHide={() => setFormDialog(false)}
                         style={{ width: "40vw" }}
+                        draggable={false}
                     >
                         <div className="p-fluid formgrid grid gap-3">
                             <div className="col-12">
@@ -300,7 +356,7 @@ export default function Invoices () {
                                     value={formData.total}
                                     onValueChange={(e) => setFormData({ ...formData, total: e.value ?? 0 })}
                                     mode="currency"
-                                    currency="USD"
+                                    currency="LKR"
                                     locale="en-US"
                                     placeholder="Total Amount"
                                 />
